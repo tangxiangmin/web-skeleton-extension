@@ -11,6 +11,8 @@ chromeMsg.on("createSkeleton", () => {
     // TODO 测试代码，此处可手动设置skeleton_type类型，未设置则在renderSkeleton中自动推断
     // $(".test").attr(KEY, SKELETON_TYPE.BLOCK)
     $(".wrap1").attr(KEY, SKELETON_TYPE.TEXT)
+    $(".logo").attr(KEY, SKELETON_TYPE.IMAGE)
+    $(".nav_item").attr(KEY, SKELETON_TYPE.TEXT)
 
     let $target = $(".media")
     $target.attr(KEY, SKELETON_TYPE.BORDER)

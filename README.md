@@ -3,6 +3,9 @@ web骨架屏
 
 通过chrome扩展程序，向页面注入代码，解析dom，替换样式，生成骨架屏，最后导出对应的html文件
 
+![实际页面](https://ws4.sinaimg.cn/large/006tNc79gy1fz8fr1w78nj30j40r60tr.jpg)
+![骨架屏](https://ws1.sinaimg.cn/large/006tNc79gy1fz8freh0kcj30iy0q0744.jpg)
+
 参考
 * [一种自动化生成骨架屏的方案](https://github.com/Jocs/jocs.github.io/issues/22)
 
@@ -20,6 +23,7 @@ web骨架屏
 整个工具依赖`skeleton-type`类型，控制该渲染类型的手段有
 * 开发时通过源码直接写在页面结构上
 * 打开Chrome开发者工具，通过Console或者Elements面板直接修改
+* 若未指定，工具会根据dom类型和内容自行推断渲染类型
 
 **文字**
 
