@@ -6,7 +6,9 @@
   "background": {
     "scripts": ["dist/background.js"]
   },
-  "browser_action": {},
+  "browser_action": {
+    "default_popup": "dist/popup.html"
+  },
   "content_scripts": [
     {
       "matches": [
@@ -17,6 +19,7 @@
       ]
     }
   ],
+
   "permissions": [
     "contextMenus",
     "notifications",
@@ -24,5 +27,5 @@
     "http://*/*",
     "https://*/*"
   ],
-  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
+  "content_security_policy": "script-src 'self' https://cdn.bootcss.com 'unsafe-eval'; object-src 'self'"
 }

@@ -2,9 +2,62 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>popup</title>
+    <style>
+        body {
+            width: 500px;
+            height: 400px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .page {
+            padding: 10px;
+        }
+
+        .textarea {
+            width: 100%;
+            height: 300px;
+            padding: 10px;
+        }
+
+
+
+    </style>
+    <link href="https://cdn.bootcss.com/element-ui/2.3.9/theme-chalk/index.css" rel="stylesheet">
+
 </head>
 <body>
+<div id="app">
+    <div class="page">
+        <el-form ref="form" :model="params" label-width="120px">
+            <el-form-item label="块">
+                <el-input v-model="params.block"></el-input>
+            </el-form-item>
+            <el-form-item label="文本">
+                <el-input v-model="params.text"></el-input>
+            </el-form-item>
+            <el-form-item label="边框">
+                <el-input v-model="params.border"></el-input>
+            </el-form-item>
+            <el-form-item label="图片">
+                <el-input v-model="params.image"></el-input>
+            </el-form-item>
+            <el-form-item label="直接插入代码">
+                <el-input type="textarea" v-model="params.code"></el-input>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" @click="createSkeleton">生成骨架屏</el-button>
+            </el-form-item>
+        </el-form>
+    </div>
+</div>
 
+<script src="https://cdn.bootcss.com/vue/2.5.16/vue.min.js"></script>
+<script src="https://cdn.bootcss.com/element-ui/2.3.9/index.js"></script>
 </body>
 </html>

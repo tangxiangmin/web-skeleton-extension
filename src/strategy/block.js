@@ -3,12 +3,15 @@
  */
 
 
-function renderBlock($dom){
+function renderBlock($dom) {
     let color = "#eee"
     $dom.css({
         "background": color,
         "border-color": color
     })
+    // $dom.find("*").css({
+    //     opacity: 0
+    // })
 }
 
 module.exports = renderBlock
