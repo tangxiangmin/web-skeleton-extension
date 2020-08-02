@@ -1,18 +1,22 @@
 
+.sk * {
+    color: #eee;
+}
+
 .sk-text {
-    --color: #eee;
-    --firstColorPoint: 0%;
-    --secondColorPoint: 0%;
-    --lineHeight: 0;
+    --c: #eee;
+    --fp: 0%;
+    --sp: 0%;
+    --lh: 0;
 
     display: inline-block;
     background-origin: content-box !important;
     background-clip: content-box !important;
     background-color: transparent !important;
     background-repeat: repeat-y !important;
-    /*color: var(--color) !important;*/
-    background-image: linear-gradient(transparent var(--firstColorPoint), var(--color) 0, var(--color) var(--secondColorPoint), transparent 0);
-    background-size: 100% var(--lineHeight);
+    /*color: var(--c) !important;*/
+    background-image: linear-gradient(transparent var(--fp), var(--c) 0, var(--c) var(--sp), transparent 0);
+    background-size: 100% var(--lh);
     color: transparent !important;
 
 }
@@ -30,8 +34,8 @@
 }
 
 .sk-border {
-    outline: 1px solid #eee !important;
-    border-color: transparent;
+    /*outline: 1px solid #eee !important;*/
+    border-color: #eee;
 }
 
 .sk-bg {
@@ -40,4 +44,23 @@
 
 .sk-list {
     color: #eee;
+}
+
+.sk-input {
+    background: #eee !important;
+    color: transparent !important;
+    border-color: transparent;
+}
+
+.sk-input::-webkit-input-placeholder {
+    color: transparent !important;
+}
+
+.sk-block {
+    background-color: #eee !important;
+    border-color: #eee !important;
+}
+
+.sk-ignore {
+    opacity: 0;
 }

@@ -11,9 +11,11 @@ let renderBorder = require('./strategy/border')
 let renderButton = require('./strategy/button')
 let renderList = require('./strategy/list')
 let renderBackgroundImage = require('./strategy/backgroundImage')
+let renderInput = require('./strategy/input')
+let renderIgnore = require('./strategy/ignore')
 
-let {SKELETON_TYPE, KEY} = require('./strategy/enum')
-const {TEXT, IMAGE, BLOCK, BORDER, LIST, BUTTON, BACKGROUND_IMAGE} = SKELETON_TYPE
+let {SKELETON_TYPE, KEY, KEY_EXCLUDE} = require('./strategy/enum')
+const {IGNORE, TEXT, IMAGE, BLOCK, BORDER, LIST, BUTTON, BACKGROUND_IMAGE, INPUT} = SKELETON_TYPE
 
 function checkNodeVisible(node) {
     // https://segmentfault.com/q/1010000020091228
@@ -27,7 +29,7 @@ function hasBorder($node) {
 }
 
 function hasBackgroundImage($node) {
-    let re = /\.(jpeg|jpg|png|gif|svg|webp)/
+    let re = /url/ // 处理背景图片
     let background = $node.css("background")
     return re.test(background)
 }
@@ -53,9 +55,22 @@ function isButton(node) {
         (node.tagName === 'BUTTON' || (node.tagName === 'A' && node.getAttribute('role') === 'button'))
 }
 
+function isInput(node) {
+    if (node.tagName === 'INPUT') {
+        let type = node.getAttribute("type")
+        return ['text', 'password', 'search'].includes(type)
+    }
+    return false
+}
+
 function getNodeSkeletonType($dom) {
     let node = $dom[0]
     if (!node) return
+
+    // 按照常见优先级指定对应type
+    if (isInput(node)) {
+        return INPUT
+    }
 
     if (hasBorder($dom)) {
         return BORDER
@@ -79,58 +94,63 @@ function getNodeSkeletonType($dom) {
     if (isText(node)) {
         // return TEXT
     }
+}
 
+function replaceTextNode($dom) {
+    let type = $dom.attr(KEY)
+    if (type === TEXT) return
+    // 文本节点
+    let $texts = $dom.contents().filter(function () {
+        return this.nodeType === 3; // 文本节点
+    })
+    $texts.each(function () {
+        let node = this
+        let $this = $(this)
+        // 过滤空文本
+        if (!$this.text().trim()) {
+            return
+        }
+        // 使用一个内联元素包裹起来，方便渲染对应宽度的背景颜色
+        let span = document.createElement('span')
+
+        let $span = $(span)
+        $span.attr(KEY, TEXT)
+        $span.insertAfter($this)
+        $this.remove()
+
+        span.appendChild(node)
+    })
 }
 
 // 遍历DOM，根据节点类型执行对应的渲染逻辑
 function preorder($dom) {
-
-    let type = $dom.attr(KEY)
-    // 文本接单
-    if (type !== TEXT) {
-        let $texts = $dom.contents().filter(function () {
-            return this.nodeType === 3; // 文本节点
-        })
-        $texts.each(function () {
-            let node = this
-            let $this = $(this)
-            // 过滤空文本
-            if (!$this.text().trim()) {
-                return
-            }
-            // 使用一个内联元素包裹起来，方便渲染对应宽度的背景颜色
-            let span = document.createElement('span')
-
-            let $span = $(span)
-            $span.attr(KEY, TEXT)
-            $span.insertAfter($this)
-            $this.remove()
-
-            span.appendChild(node)
-
-        })
-    }
+    replaceTextNode($dom)
 
     // 元素节点
     $dom.children().each(function () {
         let $this = $(this);
         let type = $this.attr(KEY) || getNodeSkeletonType($this)  // 自动检测节点类型，并附上type
+        let excludeType = $this.attr(KEY_EXCLUDE)
 
-        let node = $this[0]
-        if (!node) return
+        if (!excludeType || type !== excludeType) {
+            let node = $this[0]
+            if (!node) return
 
-        let handlers = {
-            [TEXT]: renderText,
-            [IMAGE]: renderImg,
-            [BLOCK]: renderBlock,
-            [BORDER]: renderBorder,
-            [BUTTON]: renderButton,
-            [LIST]: renderList,
-            [BACKGROUND_IMAGE]: renderBackgroundImage
+            let handlers = {
+                [TEXT]: renderText,
+                [IMAGE]: renderImg,
+                [BLOCK]: renderBlock,
+                [BORDER]: renderBorder,
+                [BUTTON]: renderButton,
+                [LIST]: renderList,
+                [BACKGROUND_IMAGE]: renderBackgroundImage,
+                [INPUT]: renderInput,
+                [IGNORE]: renderIgnore
+            }
+
+            let handler = handlers[type]
+            handler && handler($this)
         }
-
-        let handler = handlers[type]
-        handler && handler($this)
 
         // 递归
         preorder($this)
@@ -138,8 +158,34 @@ function preorder($dom) {
 
 }
 
+function preset(config) {
+    let {code, selector, ignore} = config
+
+    // 提前设置一些类型参数
+    for (let key of Object.keys(selector)) {
+        const {include, exclude} = selector[key]
+        include && $(include).attr(KEY, key)
+        exclude && $(exclude).attr(KEY_EXCLUDE, key)
+    }
+
+    ignore && $(ignore).attr(KEY, IGNORE)
+
+    // TODO 貌似不需要提供自动运行代码的接口
+    if (code) {
+        try {
+            eval(code)
+        } catch (e) {
+            console.log(e)
+        }
+    }
+}
+
 // todo 一些初始化操作
-function renderSkeleton($dom) {
+function renderSkeleton($dom, config) {
+    $dom.addClass("sk")
+
+    preset(config)
+
     preorder($dom)
 }
 

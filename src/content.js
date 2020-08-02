@@ -23,8 +23,23 @@ chromeMsg.on("createSkeleton", (params) => {
     //     console.log(e)
     // }
 
+    const {config} = params
+
+
     // 默认页面根节点，可以导出某个dom容器的骨架屏结构
-    renderSkeleton($("body"))
+    renderSkeleton($("body"), {
+        ignore: ['.banner .label'].join(','),
+        selector: {
+            block: {
+                include: ['.add-group .more'].join(',')
+            },
+            list: {
+                exclude: ['.nav-list'].join(',')
+            },
+            button: {
+                // include: ['.action-list li'].join(',')
+            }
+        },
+        // ...config
+    })
 })
-
-

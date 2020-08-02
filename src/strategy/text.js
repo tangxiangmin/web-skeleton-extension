@@ -34,13 +34,7 @@ function renderText($dom) {
         100
     ).toFixed(decimal);
 
-
-    const rule = `
-                --firstColorPoint:${firstColorPoint}%;
-                --secondColorPoint:${secondColorPoint}%;
-                --lineHeight:${lineHeight}px;
-                --color: ${color};
-            `;
+    const rule = `--fp:${firstColorPoint}%;--sp:${secondColorPoint}%;--lh:${lineHeight}px;--c: ${color};`;
     $dom.addClass('sk-text');
     $dom.attr("style", rule);
 }
