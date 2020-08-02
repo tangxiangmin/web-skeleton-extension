@@ -2,12 +2,23 @@
  * 2019/3/16 下午3:33
  */
 
+import {localConfigModel} from "./util/localModel";
+
 let chromeMsg = require('./util/chromeMsg')
 let chromeKit = require('./util/chromeKit')
-let localModel = require('./util/localModel')
 
+let defaultParams = {
+    "block": ".test",
+    "image": ".logo, .media_img",
+    "text": ".wrap1, .nav_item,.media_tt, .media_ct, .text-red, .list .list_item",
+    "border": ".media",
+    "code": "console.log(params)"
+}
 
-// let defaultParams = {"block":".test","image":".logo, .media_img","text":".wrap1, .nav_item,.media_tt, .media_ct, .text-red, .list .list_item","border":".media","code":"console.log(params)"}
+defaultParams = {
+    // image: '.container.course',
+    text: '.course .course_tt, .date-group p'
+}
 
 let vm = new Vue({
     el: "#app",
@@ -18,14 +29,15 @@ let vm = new Vue({
                 image: '',
                 text: '',
                 border: '',
-                code: ''
+                code: '',
+                ...defaultParams
             }
         }
     },
     created() {
         try {
-            let defaultParams = localModel.getConfig()
-            this.params = Object.assign(this.params, defaultParams)
+            // let defaultParams = localConfigModel.get()
+            // this.params = Object.assign(this.params, defaultParams)
         } catch (e) {
             console.log(e)
         }
@@ -34,7 +46,7 @@ let vm = new Vue({
     methods: {
         createSkeleton() {
             let params = this.params
-            localModel.setConfig(params)
+            localConfigModel.set(params)
 
             chromeKit.getCurrentTab().then(tab => {
                 let {id} = tab

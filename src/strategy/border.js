@@ -3,9 +3,7 @@
  */
 
 function renderBorder($dom) {
-    $dom.css({
-        "border-color": "#eee"
-    })
+    $dom.addClass("sk-border")
 }
 
 module.exports = renderBorder

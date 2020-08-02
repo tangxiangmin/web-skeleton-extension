@@ -16,7 +16,7 @@ module.exports = {
             options.message = str;
         }
 
-        const NOTIFY_ID = 'zhe800-notify'
+        const NOTIFY_ID = '@@notify'
         chrome.notifications.create(NOTIFY_ID, options);
         setTimeout(() => {
             chrome.notifications.clear(NOTIFY_ID);

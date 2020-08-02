@@ -26,7 +26,6 @@
         }
 
 
-
     </style>
     <link href="https://cdn.bootcss.com/element-ui/2.3.9/theme-chalk/index.css" rel="stylesheet">
 
@@ -36,19 +35,19 @@
     <div class="page">
         <el-form ref="form" :model="params" label-width="120px">
             <el-form-item label="块">
-                <el-input v-model="params.block"></el-input>
+                <el-input v-model="params.block" type="textarea" :autosize="{minRows:3}"></el-input>
             </el-form-item>
             <el-form-item label="文本">
-                <el-input v-model="params.text"></el-input>
+                <el-input v-model="params.text" type="textarea" :autosize="{minRows:3}"></el-input>
             </el-form-item>
             <el-form-item label="边框">
-                <el-input v-model="params.border"></el-input>
+                <el-input v-model="params.border" type="textarea" :autosize="{minRows:3}"></el-input>
             </el-form-item>
             <el-form-item label="图片">
-                <el-input v-model="params.image"></el-input>
+                <el-input v-model="params.image" type="textarea" :autosize="{minRows:3}"></el-input>
             </el-form-item>
             <el-form-item label="直接插入代码">
-                <el-input type="textarea" v-model="params.code"></el-input>
+                <el-input type="textarea" v-model="params.code" type="textarea" :autosize="{minRows:3}"></el-input>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="createSkeleton">生成骨架屏</el-button>

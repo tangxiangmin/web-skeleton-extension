@@ -1,0 +1,43 @@
+
+.sk-text {
+    --color: #eee;
+    --firstColorPoint: 0%;
+    --secondColorPoint: 0%;
+    --lineHeight: 0;
+
+    display: inline-block;
+    background-origin: content-box !important;
+    background-clip: content-box !important;
+    background-color: transparent !important;
+    background-repeat: repeat-y !important;
+    /*color: var(--color) !important;*/
+    background-image: linear-gradient(transparent var(--firstColorPoint), var(--color) 0, var(--color) var(--secondColorPoint), transparent 0);
+    background-size: 100% var(--lineHeight);
+    color: transparent !important;
+
+}
+
+.sk-text > * {
+    color: transparent;
+}
+
+.sk-button {
+    color: #eee !important;
+    background: #eee !important;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+.sk-border {
+    outline: 1px solid #eee !important;
+    border-color: transparent;
+}
+
+.sk-bg {
+    background: #eee !important;
+}
+
+.sk-list {
+    color: #eee;
+}

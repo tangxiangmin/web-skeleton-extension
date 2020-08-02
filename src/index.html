@@ -65,6 +65,7 @@
         .logo {
             width: 50px;
             height: 50px;
+            border-radius: 50px;
         }
 
         .nav {
@@ -77,12 +78,29 @@
             line-height: 30px;
             text-align: center;
         }
+
+        .btn {
+            width: 100%;
+            height: 50px;
+            padding: 0;
+            line-height: 50px;
+            border: none;
+            color: #fff;
+            background-color: royalblue;
+            border-radius: 5px;
+        }
+
+        .title {
+            font-size: 50PX;
+            font-weight: 400;
+            line-height: 1;
+        }
     </style>
 </head>
 
 <body>
 <div class="header">
-    <img src="./default_avatar.png" class="logo" alt=""/>
+    <img src="http://placekitten.com/200/200" class="logo" alt=""/>
     <nav>
         <ul class="nav">
             <li class="nav_item">首页</li>
@@ -91,31 +109,36 @@
     </nav>
 </div>
 <main style="padding: 10px 30px">
+    <h1 class="title">测试标题</h1>
 
-    <div class="media">
-        <img src="./default_avatar.png" class="media_img" alt=""/>
-        <div class="media_mn">
-            <div class="media_tt">大标题</div>
-            <div class="media_ct">
-                这里是几行文字这里是几行文字这里字这里是几行文字这里是几行文字这里是几行<span class="text-red">文字这里</span>
+    <div skeleton-type="list">
+        <div class="media">
+            <img src="http://placekitten.com/200/200" class="media_img" alt=""/>
+            <div class="media_mn">
+                <div class="media_tt">大标题</div>
+                <div class="media_ct">
+                    这里是几行文字这里是几行文字这里字这里是几几行<span class="text-red">文字这里</span>
+                </div>
+            </div>
+        </div>
+        <div class="media">
+            <img src="http://placekitten.com/200/200" class="media_img" alt=""/>
+            <div class="media_mn">
+                <div class="media_tt">大标题胜多负少的</div>
+                <div class="media_ct">
+                    这里是几行文字这里是几行文字这里字这里是几行文字这里是几行文字这里是几行<span class="text-red">文字这里</span>
+                </div>
             </div>
         </div>
     </div>
-    <div class="media">
-        <img src="./default_avatar.png" class="media_img" alt=""/>
-        <div class="media_mn">
-            <div class="media_tt">大标题</div>
-            <div class="media_ct">
-                这里是几行文字这里是几行文字这里字这里是几行文字这里是几行文字这里是几行<span class="text-red">文字这里</span>
-            </div>
-        </div>
-    </div>
+
 
     <ul class="list">
         <li class="list_item">列表1</li>
         <li class="list_item">列表2</li>
         <li class="list_item">列表3</li>
     </ul>
+    <button class="btn">click</button>
 </main>
 
 </body>
