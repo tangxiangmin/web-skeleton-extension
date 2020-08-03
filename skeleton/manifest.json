@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "web-skeleton",
-  "version": "1.2",
+  "version": "1.0",
   "description": "create web skeleton in first screen",
   "browser_action": {
     "default_popup": "dist/popup.html"
@@ -16,9 +16,11 @@
       ]
     }
   ],
+
   "permissions": [
-    "activeTab",
+    "contextMenus",
     "notifications",
+    "tabs",
     "http://*/*",
     "https://*/*"
   ],

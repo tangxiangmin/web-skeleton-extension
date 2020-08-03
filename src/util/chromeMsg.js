@@ -1,4 +1,3 @@
-
 let eventList = []
 if (chrome.runtime) {
     chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {

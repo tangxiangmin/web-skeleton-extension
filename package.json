@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "webpack --watch --info-verbosity verbose",
-    "serve": "webpack-dev-server"
+    "serve": "webpack-dev-server",
+    "build": "webpack --mode production --env.name prod",
+    "zip": "node scripts/zip.js"
   },
   "keywords": [],
   "author": "",
@@ -17,6 +19,7 @@
   "devDependencies": {
     "css-loader": "^4.1.1",
     "html-webpack-plugin": "^3.2.0",
+    "shelljs": "^0.8.4",
     "style-loader": "^1.2.1",
     "webpack-cli": "^3.2.1",
     "webpack-dev-server": "^3.11.0"

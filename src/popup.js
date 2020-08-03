@@ -1,7 +1,3 @@
-/**
- * 2019/3/16 下午3:33
- */
-
 // import {localConfigModel} from "./util/localModel";
 
 let chromeMsg = require('./util/chromeMsg')

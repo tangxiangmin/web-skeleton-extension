@@ -1,7 +1,3 @@
-/**
- * 2019/3/16 下午3:33
- */
-
 // 本地存储
 const {localStorage, sessionStorage} = window
 
