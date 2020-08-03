@@ -9,37 +9,9 @@ let {
 
 chromeMsg.on("createSkeleton", (params) => {
     console.log('createSkeleton')
-    //
-    // let {code, block, image, text, border} = params
-    //
-    // $(block).attr(KEY, SKELETON_TYPE.BLOCK)
-    // $(image).attr(KEY, SKELETON_TYPE.IMAGE)
-    // $(text).attr(KEY, SKELETON_TYPE.TEXT)
-    // $(border).attr(KEY, SKELETON_TYPE.BORDER)
-    //
-    // try {
-    //     eval(code)
-    // } catch (e) {
-    //     console.log(e)
-    // }
-
-    const {config} = params
-
+    const {config, root} = params
 
     // 默认页面根节点，可以导出某个dom容器的骨架屏结构
-    renderSkeleton($("body"), {
-        ignore: ['.banner .label'].join(','),
-        selector: {
-            block: {
-                include: ['.add-group .more'].join(',')
-            },
-            list: {
-                exclude: ['.nav-list'].join(',')
-            },
-            button: {
-                // include: ['.action-list li'].join(',')
-            }
-        },
-        // ...config
-    })
+    let content = renderSkeleton("body", config)
+    console.log(content)
 })

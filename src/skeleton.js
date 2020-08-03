@@ -17,10 +17,17 @@ let renderIgnore = require('./strategy/ignore')
 let {SKELETON_TYPE, KEY, KEY_EXCLUDE} = require('./strategy/enum')
 const {IGNORE, TEXT, IMAGE, BLOCK, BORDER, LIST, BUTTON, BACKGROUND_IMAGE, INPUT} = SKELETON_TYPE
 
-function checkNodeVisible(node) {
+
+function inViewPort(node) {
+    const rect = node.getBoundingClientRect()
+    return rect.top < window.innerHeight && rect.left < window.innerWidth
+}
+
+function checkNodeVisible($node) {
     // https://segmentfault.com/q/1010000020091228
     // todo 校验各种不可见的情况
-    return node.style.display !== 'none'
+
+    return $node.css('display') !== 'none'
 }
 
 function hasBorder($node) {
@@ -126,32 +133,38 @@ function replaceTextNode($dom) {
 function preorder($dom) {
     replaceTextNode($dom)
 
-    // 元素节点
-    $dom.children().each(function () {
-        let $this = $(this);
-        let type = $this.attr(KEY) || getNodeSkeletonType($this)  // 自动检测节点类型，并附上type
-        let excludeType = $this.attr(KEY_EXCLUDE)
+    // 排除不可见的元素
+    if (!checkNodeVisible($dom)) {
+        return
+    }
 
-        if (!excludeType || type !== excludeType) {
-            let node = $this[0]
-            if (!node) return
+    let type = $dom.attr(KEY) || getNodeSkeletonType($dom)  // 自动检测节点类型，并附上type
+    let excludeType = $dom.attr(KEY_EXCLUDE)
 
-            let handlers = {
-                [TEXT]: renderText,
-                [IMAGE]: renderImg,
-                [BLOCK]: renderBlock,
-                [BORDER]: renderBorder,
-                [BUTTON]: renderButton,
-                [LIST]: renderList,
-                [BACKGROUND_IMAGE]: renderBackgroundImage,
-                [INPUT]: renderInput,
-                [IGNORE]: renderIgnore
-            }
-
-            let handler = handlers[type]
-            handler && handler($this)
+    if (!excludeType || type !== excludeType) {
+        let handlers = {
+            [TEXT]: renderText,
+            [IMAGE]: renderImg,
+            [BLOCK]: renderBlock,
+            [BORDER]: renderBorder,
+            [BUTTON]: renderButton,
+            [LIST]: renderList,
+            [BACKGROUND_IMAGE]: renderBackgroundImage,
+            [INPUT]: renderInput,
+            [IGNORE]: renderIgnore
         }
 
+        let handler = handlers[type]
+        handler && handler($dom)
+        // 不再执行后面的模块
+        if ([BLOCK].includes(type)) {
+            return
+        }
+    }
+
+    // 元素节点
+    $dom.children().each(function () {
+        const $this = $(this)
         // 递归
         preorder($this)
     });
@@ -159,7 +172,7 @@ function preorder($dom) {
 }
 
 function preset(config) {
-    let {code, selector, ignore} = config
+    let {code, selector = {}, ignore} = config
 
     // 提前设置一些类型参数
     for (let key of Object.keys(selector)) {
@@ -181,12 +194,15 @@ function preset(config) {
 }
 
 // todo 一些初始化操作
-function renderSkeleton($dom, config) {
-    $dom.addClass("sk")
+function renderSkeleton(sel, config) {
+    let $root = $(sel)
+    $root.addClass("sk")
 
     preset(config)
 
-    preorder($dom)
+    preorder($root)
+
+    return $root.html()
 }
 
 module.exports = {

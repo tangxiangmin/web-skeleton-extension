@@ -7,10 +7,9 @@ let {
     renderSkeleton,
 } = require("./skeleton")
 
-let body = $("body")
 // walk(body[0])
 $(".btn").on("click", () => {
-    renderSkeleton(body, {
+    let html = renderSkeleton(".page", {
         ignore: '',
         selector: {
             block: {
@@ -21,6 +20,7 @@ $(".btn").on("click", () => {
             }
         }
     })
+    console.log(html)
 })
 
 

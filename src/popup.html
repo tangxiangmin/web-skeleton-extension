@@ -34,7 +34,10 @@
 <div id="app">
     <div class="page">
         <el-form ref="form" :model="params">
-            <el-form-item label="代码">
+            <el-form-item label="根节点">
+                <el-input v-model="params.root" palceholder="请填写根节点选择器"></el-input>
+            </el-form-item>
+            <el-form-item label="配置项">
                 <el-input v-model="params.config" type="textarea" :autosize="{minRows:5}"></el-input>
             </el-form-item>
             <el-form-item>
