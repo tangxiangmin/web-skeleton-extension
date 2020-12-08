@@ -22,16 +22,19 @@ web骨架屏
 
 * Chrome浏览器输入地址 `chrome://extensions/`
 * 打开右上角的"开发者模式"
+
 ![](http://img.shymean.com/oPic/1607419485662_967.png)
 
 * 点击"加载已解压的本地文件"，选中当前项目的src目录作为插件地址
+
 ![](http://img.shymean.com/oPic/1607419583847_780.png)
 
-然后再chrome的插件列表中启用插件，Chrome右上角会出现插件图标，然后就可以开始调试了
+然后再chrome的插件列表中启用插件，Chrome右上角会出现插件图标，点击图标会出现popup操作页面，然后就可以用Chrome打开`src/index.html`开始调试了
 
-![](http://img.shymean.com/oPic/1607419795896_928.png)
+![](http://img.shymean.com/oPic/1607420362178_824.png)
 
-由于修改`content.js`后需要手动reload插件一下
+需要注意的是修改`content.js`后需要手动reload插件一下，相关改动才会生效
+
 ![](http://img.shymean.com/oPic/1607419716677_473.png)
 
 
