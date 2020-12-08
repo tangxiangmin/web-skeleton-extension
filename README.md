@@ -10,11 +10,30 @@ web骨架屏
 
 相关整理：[使用Chrome扩展程序生成网页骨架屏](https://www.shymean.com/article/使用Chrome扩展程序生成网页骨架屏)
 
+本插件已经上架到[Chrome应用商店](https://chrome.google.com/webstore/detail/web-skeleton/cnbfholcpekcobijhgkjcmlceomfdpck)
+
 ## 开发环境
 
-将扩展程序根目录指向src目录，指向`npm run dev`，修改`content.js`后需要手动reload插件一下
+将扩展程序根目录指向src目录，执行`npm run dev`
 
 本地网页调试直接使用`npm run serve`开启调试
+
+关于Chrome加载本地插件的具体步骤
+
+* Chrome浏览器输入地址 `chrome://extensions/`
+* 打开右上角的"开发者模式"
+![](http://img.shymean.com/oPic/1607419485662_967.png)
+
+* 点击"加载已解压的本地文件"，选中当前项目的src目录作为插件地址
+![](http://img.shymean.com/oPic/1607419583847_780.png)
+
+然后再chrome的插件列表中启用插件，Chrome右上角会出现插件图标，然后就可以开始调试了
+
+![](http://img.shymean.com/oPic/1607419795896_928.png)
+
+由于修改`content.js`后需要手动reload插件一下
+![](http://img.shymean.com/oPic/1607419716677_473.png)
+
 
 ## Feature
 * [ ] 移动端屏幕适配
