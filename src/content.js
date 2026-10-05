@@ -1,10 +1,9 @@
-let chromeMsg = require('./util/chromeMsg')
-let $ = require('jquery')
+import chromeMsg from './util/chromeMsg.js'
 import './style/index.css'
 
-let {
+import {
     renderSkeleton,
-} = require("./skeleton")
+} from './skeleton.js'
 
 
 chromeMsg.on("createSkeleton", (params) => {
@@ -12,6 +11,6 @@ chromeMsg.on("createSkeleton", (params) => {
     const {config, root} = params
 
     // 默认页面根节点，可以导出某个dom容器的骨架屏结构
-    let content = renderSkeleton("body", config)
+    let content = renderSkeleton(root || "body", config)
     console.log(content)
 })

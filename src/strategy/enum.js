@@ -5,7 +5,6 @@
 
 const KEY = "skeleton-type"
 const KEY_EXCLUDE = 'skeleton-exclude-type'
-const DEEP_KEY = 'skeleton-deep'
 const SKELETON_TYPE = {
     IGNORE: "ignore",
     TEXT: "text",
@@ -18,9 +17,8 @@ const SKELETON_TYPE = {
     INPUT: 'input'
 }
 
-module.exports = {
+export {
     KEY,
     KEY_EXCLUDE,
-    DEEP_KEY,
     SKELETON_TYPE
 }

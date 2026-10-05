@@ -16,5 +16,5 @@ function renderImg($img) {
     })
 }
 
-module.exports = renderImg
+export default renderImg
 

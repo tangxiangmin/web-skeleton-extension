@@ -2,7 +2,6 @@
  * 2019/1/16 上午11:04
  */
 
-let {SKELETON_TYPE, KEY} = require('./enum')
 
 function renderText($dom) {
     let fontSize = parseFloat($dom.css("font-size"));
@@ -24,4 +23,4 @@ function renderText($dom) {
     $dom.attr("style", style);
 }
 
-module.exports = renderText
+export default renderText

@@ -2,19 +2,19 @@
  * 2019/1/16 上午11:08
  */
 
-let $ = require('jquery')
+import $ from 'jquery'
 
-let renderText = require('./strategy/text')
-let renderImg = require('./strategy/img')
-let renderBlock = require('./strategy/block')
-let renderBorder = require('./strategy/border')
-let renderButton = require('./strategy/button')
-let renderList = require('./strategy/list')
-let renderBackgroundImage = require('./strategy/backgroundImage')
-let renderInput = require('./strategy/input')
-let renderIgnore = require('./strategy/ignore')
+import renderText from './strategy/text.js'
+import renderImg from './strategy/img.js'
+import renderBlock from './strategy/block.js'
+import renderBorder from './strategy/border.js'
+import renderButton from './strategy/button.js'
+import renderList from './strategy/list.js'
+import renderBackgroundImage from './strategy/backgroundImage.js'
+import renderInput from './strategy/input.js'
+import renderIgnore from './strategy/ignore.js'
 
-let {SKELETON_TYPE, KEY, KEY_EXCLUDE} = require('./strategy/enum')
+import {SKELETON_TYPE, KEY, KEY_EXCLUDE} from './strategy/enum.js'
 const {IGNORE, TEXT, IMAGE, BLOCK, BORDER, LIST, BUTTON, BACKGROUND_IMAGE, INPUT} = SKELETON_TYPE
 
 
@@ -205,8 +205,4 @@ function renderSkeleton(sel, config) {
     return $root.html()
 }
 
-module.exports = {
-    renderSkeleton,
-    SKELETON_TYPE,
-    KEY
-}
+export {renderSkeleton}

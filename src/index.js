@@ -1,11 +1,11 @@
-import style from './style/index.css'
+import './style/index.css'
 
 
-let $ = require('jquery')
+import $ from 'jquery'
 
-let {
+import {
     renderSkeleton,
-} = require("./skeleton")
+} from './skeleton.js'
 
 // walk(body[0])
 $(".btn").on("click", () => {

@@ -6,4 +6,4 @@ function renderBorder($dom) {
     $dom.addClass("sk-border")
 }
 
-module.exports = renderBorder
+export default renderBorder

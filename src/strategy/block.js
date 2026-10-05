@@ -11,4 +11,4 @@ function renderBlock($dom) {
     // })
 }
 
-module.exports = renderBlock
+export default renderBlock

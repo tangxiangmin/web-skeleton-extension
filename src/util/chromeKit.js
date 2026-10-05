@@ -1,4 +1,4 @@
-module.exports = {
+export default {
     // chrome原生通知
     showTip(str, opt) {
         let options = Object.assign({

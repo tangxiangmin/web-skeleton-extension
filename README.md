@@ -14,29 +14,48 @@ web骨架屏
 
 ## 开发环境
 
-将扩展程序根目录指向src目录，执行`npm run dev`
+工程使用 PNPM、Vite 和 `@crxjs/vite-plugin`，扩展清单为 Manifest V3。
+需要 Node.js 22.12+，使用本机已安装的 PNPM，不固定 PNPM 版本；popup 使用原生 JavaScript、DOM 和 CSS；骨架屏处理逻辑使用 jQuery。
 
-本地网页调试直接使用`npm run serve`开启调试
+首次安装依赖，由开发者执行：
 
-关于Chrome加载本地插件的具体步骤
+```sh
+pnpm install
+```
 
-* Chrome浏览器输入地址 `chrome://extensions/`
-* 打开右上角的"开发者模式"
+安装后会生成 `pnpm-lock.yaml`，请将其纳入版本管理。
 
-![](http://img.shymean.com/oPic/1607419485662_967.png)
+开发扩展：
 
-* 点击"加载已解压的本地文件"，选中当前项目的src目录作为插件地址
+```sh
+pnpm dev
+```
 
-![](http://img.shymean.com/oPic/1607419583847_780.png)
+在 Chrome 中打开 `chrome://extensions/`，启用开发者模式，点击“加载已解压的扩展程序”，选择项目根目录下的 `dist` 目录。
+开发时保持 Vite 服务运行，CRXJS 提供热更新；修改扩展清单后应重新加载扩展。
+首次加载扩展后刷新目标页面，再通过扩展图标打开 popup。
 
-然后再chrome的插件列表中启用插件，Chrome右上角会出现插件图标，点击图标会出现popup操作页面，然后就可以用Chrome打开`src/index.html`开始调试了
+本地网页调试：
 
-![](http://img.shymean.com/oPic/1607420362178_824.png)
+```sh
+pnpm serve
+```
 
-需要注意的是修改`content.js`后需要手动reload插件一下，相关改动才会生效
+调试页面地址为 `http://127.0.0.1:9000/src/index.html`，点击页面按钮调用骨架屏生成逻辑。
+`pnpm dev` 和 `pnpm serve` 使用同一个开发服务，选择其中一个运行即可。
 
-![](http://img.shymean.com/oPic/1607419716677_473.png)
+生产构建与本地压缩：
 
+```sh
+pnpm build
+pnpm zip
+```
+
+`pnpm build` 输出到根目录 `dist`，将该目录加载为扩展。
+`pnpm zip` 先执行生产构建，再使用系统 `zip` 命令将 `dist` 内容压缩为根目录 `skeleton.zip`。
+生产构建仅包含扩展入口，本地调试页面不进入生产包。全部产物保留在本地。
+
+配置中的 `ignore`、`selector` 继续用于节点选择；历史 `config.code` 使用 `eval`，受 Manifest V3 的 CSP 限制，不能作为脚本执行入口。
 
 ## Feature
 * [ ] 移动端屏幕适配
@@ -59,5 +78,3 @@ todo
 * 开发时通过源码直接写在页面结构上
 * 打开Chrome开发者工具，通过Console或者Elements面板直接修改
 * 若未指定，工具会根据dom类型和内容自行推断渲染类型
-
-

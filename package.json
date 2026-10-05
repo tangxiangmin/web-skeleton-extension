@@ -2,26 +2,25 @@
   "name": "web-skeleton",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
-    "dev": "webpack --watch --info-verbosity verbose",
-    "serve": "webpack-dev-server",
-    "build": "webpack --mode production --env.name prod",
-    "zip": "node scripts/zip.js"
+    "dev": "vite",
+    "serve": "vite --open /src/index.html",
+    "build": "vite build",
+    "zip": "pnpm run build && node scripts/zip.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "jquery": "^3.3.1",
-    "webpack": "^4.28.4"
+    "jquery": "^3.3.1"
   },
   "devDependencies": {
-    "css-loader": "^4.1.1",
-    "html-webpack-plugin": "^3.2.0",
-    "shelljs": "^0.8.4",
-    "style-loader": "^1.2.1",
-    "webpack-cli": "^3.2.1",
-    "webpack-dev-server": "^3.11.0"
+    "@crxjs/vite-plugin": "^2.7.0",
+    "vite": "^6.1.0"
+  },
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.12.0"
   }
 }

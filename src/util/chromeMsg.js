@@ -11,7 +11,7 @@ if (chrome.runtime) {
 
 }
 
-module.exports = {
+export default {
     on(eventName, cb, mult = false) {
         if (!eventList[eventName]) {
             eventList[eventName] = []

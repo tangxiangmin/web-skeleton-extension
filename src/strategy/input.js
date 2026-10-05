@@ -1,6 +1,6 @@
 
 
 
-module.exports = function($dom){
+export default function($dom){
     $dom.addClass("sk-input")
 }

@@ -1,10 +1,14 @@
-let shell = require('shelljs')
+import { execFileSync } from 'node:child_process'
+import { existsSync, rmSync } from 'node:fs'
+import { fileURLToPath } from 'node:url'
 
-const name = 'skeleton'
-let files = [
-    'dist/*', 'manifest.json', 'popup.html'
-].join(' ')
+const distDirectory = fileURLToPath(new URL('../dist/', import.meta.url))
+const archivePath = fileURLToPath(new URL('../skeleton.zip', import.meta.url))
 
-let fileName = `${name}.zip`
-// 压缩
-shell.exec(`cd ./src && zip -r ${fileName} ${files} && mv ${fileName} ../`)
+if (!existsSync(new URL('../dist/manifest.json', import.meta.url))) {
+    throw new Error('缺少 dist/manifest.json，请先运行 pnpm build')
+}
+
+// 删除旧归档，避免 zip 更新时保留已移除的文件。
+rmSync(archivePath, { force: true })
+execFileSync('zip', ['-r', archivePath, '.'], { cwd: distDirectory, stdio: 'inherit' })

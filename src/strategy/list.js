@@ -1,4 +1,4 @@
-module.exports = function renderList($dom) {
+export default function renderList($dom) {
     $dom.addClass("sk-list")
 
     let $children = $dom.children()

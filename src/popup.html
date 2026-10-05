@@ -1,53 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>popup</title>
-    <style>
-        body {
-            width: 500px;
-            height: 400px;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        .page {
-            padding: 10px;
-        }
-
-        .textarea {
-            width: 100%;
-            height: 300px;
-            padding: 10px;
-        }
-
-
-    </style>
-    <link href="https://cdn.bootcss.com/element-ui/2.3.9/theme-chalk/index.css" rel="stylesheet">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>web-skeleton</title>
+    <link rel="stylesheet" href="./style/popup.css">
 </head>
 <body>
-<div id="app">
-    <div class="page">
-        <el-form ref="form" :model="params">
-            <el-form-item label="根节点">
-                <el-input v-model="params.root" palceholder="请填写根节点选择器"></el-input>
-            </el-form-item>
-            <el-form-item label="配置项">
-                <el-input v-model="params.config" type="textarea" :autosize="{minRows:5}"></el-input>
-            </el-form-item>
-            <el-form-item>
-                <el-button type="primary" @click="createSkeleton">生成骨架屏</el-button>
-            </el-form-item>
-        </el-form>
-    </div>
-</div>
-
-<script src="https://cdn.bootcss.com/vue/2.5.16/vue.min.js"></script>
-<script src="https://cdn.bootcss.com/element-ui/2.3.9/index.js"></script>
+<main class="popup">
+    <header class="header">
+        <p class="eyebrow">WEB SKELETON</p>
+        <h1>生成页面骨架屏</h1>
+        <p class="description">处理当前标签页的指定区域，生成结果输出到页面控制台。</p>
+    </header>
+    <form id="skeleton-form">
+        <div class="field">
+            <label for="root-selector">根节点</label>
+            <input id="root-selector" name="root" type="text" value="body"
+                   placeholder="例如 body、#app、.page" required
+                   aria-describedby="root-help" spellcheck="false" autocomplete="off">
+            <p id="root-help" class="hint">填写目标页面的选择器，默认处理整个页面。</p>
+        </div>
+        <div class="field">
+            <label for="config-json">配置项 <span class="label-note">JSON</span></label>
+            <textarea id="config-json" name="config" rows="11" spellcheck="false"
+                      aria-describedby="config-help" placeholder="{}"></textarea>
+            <p id="config-help" class="hint">ignore 指定忽略区域，selector 指定各类节点的 include / exclude 选择器。留空使用空配置。</p>
+        </div>
+        <p class="notice">生成操作会直接修改目标页面，刷新页面可恢复。</p>
+        <button id="generate-button" type="submit">生成骨架屏</button>
+        <p id="form-status" class="status" role="status" aria-live="polite" aria-atomic="true"></p>
+    </form>
+</main>
+<script type="module" src="./popup.js"></script>
 </body>
 </html>
