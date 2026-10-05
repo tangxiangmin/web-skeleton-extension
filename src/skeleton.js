@@ -63,8 +63,9 @@ function isButton(node) {
 }
 
 function isInput(node) {
+    if (node.tagName === 'TEXTAREA') return true
     if (node.tagName === 'INPUT') {
-        let type = node.getAttribute("type")
+        let type = node.type
         return ['text', 'password', 'search'].includes(type)
     }
     return false
@@ -77,6 +78,10 @@ function getNodeSkeletonType($dom) {
     // 按照常见优先级指定对应type
     if (isInput(node)) {
         return INPUT
+    }
+
+    if (isButton(node)) {
+        return BUTTON
     }
 
     if (hasBorder($dom)) {
@@ -93,10 +98,6 @@ function getNodeSkeletonType($dom) {
         return LIST
     }
 
-    if (isButton(node)) {
-        return BUTTON
-    }
-
     // 把文本节点处理放在最后面
     if (isText(node)) {
         // return TEXT
@@ -105,7 +106,8 @@ function getNodeSkeletonType($dom) {
 
 function replaceTextNode($dom) {
     let type = $dom.attr(KEY)
-    if (type === TEXT) return
+    // 控件内容由自身渲染逻辑和最终清理处理，避免插入 span 改变原生布局。
+    if (type === TEXT || isInput($dom[0]) || isButton($dom[0])) return
     // 文本节点
     let $texts = $dom.contents().filter(function () {
         return this.nodeType === 3; // 文本节点
@@ -194,13 +196,59 @@ function preset(config) {
 }
 
 // todo 一些初始化操作
-function renderSkeleton(sel, config) {
+function sanitizeSkeleton($root) {
+    const roots = $root.toArray()
+    const elements = $root.find('*').addBack().toArray()
+
+    // 在替换任何文字之前统一测量，避免前面的替换影响后续节点尺寸。
+    const sizes = elements.filter(node =>
+        node.classList.contains('sk-text') ||
+        Array.from(node.childNodes).some(child => child.nodeType === 3 && child.textContent.trim())
+    ).filter(node => !['SCRIPT', 'STYLE', 'NOSCRIPT', 'TEMPLATE', 'TEXTAREA'].includes(node.tagName))
+        .map(node => ({ node, width: $(node).width(), height: $(node).height() }))
+
+    for (const {node, width, height} of sizes) {
+        const $node = $(node)
+        if ($node.css('display') === 'inline') $node.css('display', 'inline-block')
+        $node.width(width).height(height)
+    }
+
+    for (const node of elements) {
+        if (['SCRIPT', 'STYLE', 'NOSCRIPT', 'TEMPLATE'].includes(node.tagName)) {
+            node.remove()
+            continue
+        }
+        if (node.tagName === 'A') {
+            node.removeAttribute('href')
+            node.removeAttribute('ping')
+        }
+        for (const attribute of ['title', 'alt', 'placeholder', 'value', 'aria-label', 'aria-description']) {
+            node.removeAttribute(attribute)
+        }
+        if (node.tagName === 'INPUT' || node.tagName === 'TEXTAREA') node.value = ''
+        if (node.tagName === 'TEXTAREA') node.textContent = ''
+    }
+
+    for (const root of roots) {
+        const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT | NodeFilter.SHOW_COMMENT)
+        const nodes = []
+        while (walker.nextNode()) nodes.push(walker.currentNode)
+        for (const node of nodes) {
+            if (node.nodeType === 8) node.remove()
+            else if (node.textContent.trim()) node.textContent = '\u00a0'
+        }
+    }
+}
+
+function renderSkeleton(sel, config = {}) {
     let $root = $(sel)
     $root.addClass("sk")
 
     preset(config)
 
     preorder($root)
+
+    sanitizeSkeleton($root)
 
     return $root.html()
 }

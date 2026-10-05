@@ -9,7 +9,6 @@
     --sp: 0%;
     --lh: 0;
 
-    display: inline-block;
     background-origin: content-box !important;
     background-clip: content-box !important;
     background-color: transparent !important;
@@ -26,9 +25,9 @@
 }
 
 .sk-button {
-    color: #eee !important;
+    color: transparent !important;
     background: #eee !important;
-    border: none !important;
+    border-color: transparent !important;
     box-shadow: none !important;
     outline: none !important;
 }
@@ -49,10 +48,12 @@
 .sk-input {
     background: #eee !important;
     color: transparent !important;
-    border-color: transparent;
+    border-color: transparent !important;
+    box-shadow: none !important;
+    outline: none !important;
 }
 
-.sk-input::-webkit-input-placeholder {
+.sk-input::placeholder {
     color: transparent !important;
 }
 

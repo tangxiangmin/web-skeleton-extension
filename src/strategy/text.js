@@ -4,6 +4,10 @@
 
 
 function renderText($dom) {
+    // 内联文字需要承载骨架宽高；块级元素保留原布局及外边距折叠行为。
+    if ($dom.css('display') === 'inline') {
+        $dom.css('display', 'inline-block');
+    }
     let fontSize = parseFloat($dom.css("font-size"));
     let lineHeight = $dom.css("line-height");
 
@@ -18,9 +22,12 @@ function renderText($dom) {
     const firstColorPoint = (((1 - textHeightRatio) / 2) * 100).toFixed(2);
     const secondColorPoint = (((1 - textHeightRatio) / 2 + textHeightRatio) * 100).toFixed(2);
 
-    const style = `--fp:${firstColorPoint}%;--sp:${secondColorPoint}%;--lh:${lineHeight}px;`;
     $dom.addClass('sk-text');
-    $dom.attr("style", style);
+    $dom.css({
+        '--fp': `${firstColorPoint}%`,
+        '--sp': `${secondColorPoint}%`,
+        '--lh': `${lineHeight}px`
+    });
 }
 
 export default renderText
