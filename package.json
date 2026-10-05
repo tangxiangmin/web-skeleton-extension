@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "dev": "vite",
-    "serve": "vite --open /src/index.html",
+    "serve": "vite --open /examples/index.html",
     "build": "vite build",
     "zip": "pnpm run build && node scripts/zip.js"
   },

@@ -41,7 +41,7 @@ pnpm dev
 pnpm serve
 ```
 
-调试页面地址为 `http://127.0.0.1:9000/src/index.html`，点击页面按钮调用骨架屏生成逻辑。
+调试页面位于 `examples/`，地址为 `http://127.0.0.1:9000/examples/index.html`，点击页面按钮调用骨架屏生成逻辑。
 `pnpm dev` 和 `pnpm serve` 使用同一个开发服务，选择其中一个运行即可。
 
 生产构建与本地压缩：

@@ -20,7 +20,7 @@ export default defineConfig(({ command }) => ({
         emptyOutDir: true,
         rollupOptions: {
             input: command === 'serve'
-                ? { demo: fileURLToPath(new URL('./src/index.html', import.meta.url)) }
+                ? { demo: fileURLToPath(new URL('./examples/index.html', import.meta.url)) }
                 : undefined
         }
     }

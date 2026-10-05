@@ -131,6 +131,56 @@ function replaceTextNode($dom) {
     })
 }
 
+function replaceOpaqueElements($root) {
+    const roots = $root.toArray()
+    const properties = [
+        'display', 'box-sizing', 'margin-top', 'margin-right', 'margin-bottom', 'margin-left',
+        'padding-top', 'padding-right', 'padding-bottom', 'padding-left',
+        'font-size', 'font-family', 'font-weight', 'line-height', 'letter-spacing',
+        'vertical-align', 'text-align', 'border-radius',
+        'border-top-width', 'border-right-width', 'border-bottom-width', 'border-left-width',
+        'border-top-style', 'border-right-style', 'border-bottom-style', 'border-left-style',
+        'position', 'top', 'right', 'bottom', 'left', 'float', 'clear',
+        'flex-grow', 'flex-shrink', 'flex-basis', 'align-self', 'order',
+        'grid-area', 'justify-self', 'visibility'
+    ]
+    // 先测量全部占位对象；替换父节点时，其内部节点一并丢弃。
+    const components = $root.find('*').addBack().toArray().filter(node =>
+        (node.namespaceURI === 'http://www.w3.org/2000/svg' && node.localName === 'svg') ||
+        (node.namespaceURI === 'http://www.w3.org/1999/xhtml' &&
+            node.localName.includes('-') && !node.hasAttribute(KEY))
+    ).map(node => {
+        const computed = window.getComputedStyle(node)
+        const style = {}
+        for (const property of properties) style[property] = computed.getPropertyValue(property)
+        return {node, style, width: $(node).width(), height: $(node).height(), isSvg: node.localName === 'svg'}
+    })
+
+    for (const {node, style, width, height, isSvg} of components) {
+        if (!roots.some(root => root === node || root.contains(node))) continue
+        const replacement = document.createElement('span')
+        replacement.className = node.getAttribute('class') || ''
+        replacement.setAttribute(KEY, isSvg ? BLOCK : TEXT)
+        const exclude = node.getAttribute(KEY_EXCLUDE)
+        if (exclude) replacement.setAttribute(KEY_EXCLUDE, exclude)
+        if (!isSvg) replacement.textContent = '\u00a0'
+        const $replacement = $(replacement)
+        $replacement.css(style)
+        if (style.display === 'inline') $replacement.css('display', 'inline-block')
+        $replacement.width(width).height(height)
+        if (isSvg) {
+            replacement.style.setProperty('background', '#eee', 'important')
+            replacement.style.setProperty('border-color', 'transparent', 'important')
+            replacement.style.setProperty('border-radius', '2px', 'important')
+        }
+        // 不保留组件标签、Shadow DOM、事件或业务属性，避免组件重新渲染。
+        node.replaceWith(replacement)
+        const index = roots.indexOf(node)
+        if (index !== -1) roots[index] = replacement
+    }
+    return $(roots)
+}
+
 // 遍历DOM，根据节点类型执行对应的渲染逻辑
 function preorder($dom) {
     replaceTextNode($dom)
@@ -245,6 +295,8 @@ function renderSkeleton(sel, config = {}) {
     $root.addClass("sk")
 
     preset(config)
+
+    $root = replaceOpaqueElements($root)
 
     preorder($root)
 
